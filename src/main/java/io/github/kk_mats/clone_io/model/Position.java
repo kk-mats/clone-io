@@ -6,42 +6,48 @@ import java.util.Objects;
 
 public class Position implements Comparable<Position>
 {
-	private int lineNumber;
-	private int columnNumber;
+	private static final int columnUndefined=-1;
+	private final int line;
+	private final int column;
 
-	public Position(final int lineNumber, final int columnNumber)
+	public Position(final int line, final int column)
 	{
-		this.lineNumber=lineNumber;
-		this.columnNumber=columnNumber;
+		this.line=line;
+		this.column=column;
 	}
 
-	public Position(final int lineNumber)
+	public Position(final int line)
 	{
-		this(lineNumber, 0);
+		this(line, columnUndefined);
 	}
 
-	public int getColumnNumber()
+	public boolean hasColumn()
 	{
-		return columnNumber;
+		return this.column!=columnUndefined;
 	}
 
-	public int getLineNumber()
+	public int getColumn()
 	{
-		return lineNumber;
+		return column;
+	}
+
+	public int getLine()
+	{
+		return line;
 	}
 
 	@Override
 	public int compareTo(final Position other) throws NullPointerException
 	{
-		if(this.lineNumber<Objects.requireNonNull(other).lineNumber)
+		if(this.line<Objects.requireNonNull(other).line)
 		{
 			return -1;
 		}
-		else if(this.lineNumber>other.lineNumber)
+		else if(this.line>other.line)
 		{
 			return 1;
 		}
 
-		return Integer.compare(this.columnNumber, other.columnNumber);
+		return Integer.compare(this.column, other.column);
 	}
 }
