@@ -2,7 +2,6 @@ package io.github.kk_mats.clone_io.model;
 
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -12,14 +11,15 @@ public class DetectionResult
 	private final Environment environment;
 	private ArrayList<ClonePair> clonePairs;
 
-	public DetectionResult(final String cloneSource, final String cloneDetectorName) throws NullPointerException
+	public DetectionResult(final Path cloneSource, final String cloneDetectorName) throws NullPointerException
 	{
-		this(cloneSource, new CloneDetector(cloneDetectorName));
+		this(cloneSource, new CloneDetector(cloneDetectorName, null));
 	}
 
-	public DetectionResult(final String cloneSource, final CloneDetector cloneDetector) throws NullPointerException
+	public DetectionResult(final Path cloneSource, final CloneDetector cloneDetector) throws NullPointerException
 	{
 		this.environment=new Environment(cloneSource, cloneDetector);
+		this.clonePairs=new ArrayList<>();
 	}
 
 	public DetectionResult(final Environment environment) throws NullPointerException
@@ -36,7 +36,7 @@ public class DetectionResult
 
 	public Environment getEnvironment()
 	{
-		return environment;
+		return this.environment;
 	}
 
 	public int size()
@@ -60,11 +60,33 @@ public class DetectionResult
 	public class Environment
 	{
 		private final Path cloneSource;
+		private Path detectionTarget;
+		private String resultName;
 		private final CloneDetector cloneDetector;
 
-		public Environment(final String cloneSource, final CloneDetector cloneDetector) throws NullPointerException
+		public Environment(final Path cloneSource, final CloneDetector cloneDetector) throws NullPointerException
 		{
-			this.cloneSource=Paths.get(Objects.requireNonNull(cloneSource));
+			this(cloneSource, null, cloneSource.toString(), cloneDetector);
+		}
+
+		public Environment(final Path cloneSource, final Path detectionTarget, CloneDetector cloneDetector)
+				throws NullPointerException
+		{
+			this(cloneSource, detectionTarget, null, cloneDetector);
+		}
+
+		public Environment(final Path cloneSource, final String resultName, final CloneDetector cloneDetector)
+				throws NullPointerException
+		{
+			this(cloneSource, null, resultName, cloneDetector);
+		}
+
+		public Environment(final Path cloneSource, final Path detectionTarget, final String resultName,
+		                   final CloneDetector cloneDetector)
+		{
+			this.cloneSource=Objects.requireNonNull(cloneSource);
+			this.detectionTarget=detectionTarget;
+			this.resultName=Objects.requireNonNull(resultName);
 			this.cloneDetector=Objects.requireNonNull(cloneDetector);
 		}
 
@@ -77,7 +99,15 @@ public class DetectionResult
 		{
 			return cloneDetector;
 		}
+
+		public void setResultName(final String resultName)
+		{
+			this.resultName=resultName;
+		}
+
+		public void setDetectionTarget(final Path detectionTarget)
+		{
+			this.detectionTarget=detectionTarget;
+		}
 	}
-
-
 }
