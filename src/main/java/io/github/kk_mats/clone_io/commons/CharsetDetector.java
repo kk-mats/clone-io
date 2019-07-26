@@ -16,6 +16,9 @@ public class CharsetDetector
 	private static final int block_size=4096;
 	private static byte[] buffer=new byte[block_size];
 	private static UniversalDetector detector=new UniversalDetector(null);
+	
+	private CharsetDetector()
+	{}
 
 	public static Charset detect(final Path file) throws NullPointerException, IllegalArgumentException, IOException
 	{
@@ -28,6 +31,7 @@ public class CharsetDetector
 		}
 
 		detector.dataEnd();
-		return Charset.forName(detector.getDetectedCharset());
+		final var detected=detector.getDetectedCharset();
+		return detected!=null ? Charset.forName(detected) : Charset.defaultCharset();
 	}
 }
