@@ -38,7 +38,12 @@ public class DetectionResult
 	{
 		return this.environment;
 	}
-
+	
+	public ArrayList<ClonePair> getClonePairs()
+	{
+		return clonePairs;
+	}
+	
 	public int size()
 	{
 		return this.clonePairs.size();

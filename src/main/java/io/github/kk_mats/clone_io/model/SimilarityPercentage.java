@@ -9,12 +9,24 @@ public class SimilarityPercentage extends CloneSimilarity
 	{
 		super(value);
 	}
-
-	SimilarityPercentage fromString(final String valueString) throws IllegalArgumentException, NullPointerException
+	
+	public SimilarityPercentage(final float value) throws IllegalArgumentException
 	{
-		return new SimilarityPercentage(Integer.parseInt(Objects.requireNonNull(valueString)));
+		super((int) (value*100));
 	}
-
+	
+	static public SimilarityPercentage fromIntString(final String intString)
+			throws NullPointerException, NumberFormatException
+	{
+		return new SimilarityPercentage(Integer.parseInt(Objects.requireNonNull(intString)));
+	}
+	
+	static public SimilarityPercentage fromFloatString(final String floatString)
+			throws NullPointerException, NumberFormatException
+	{
+		return new SimilarityPercentage(Float.parseFloat(Objects.requireNonNull(floatString)));
+	}
+	
 	@Override
 	public String toString()
 	{

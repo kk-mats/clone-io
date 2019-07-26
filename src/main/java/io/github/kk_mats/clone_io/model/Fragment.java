@@ -18,6 +18,12 @@ public class Fragment implements Comparable<Fragment>
 		this.start=Objects.requireNonNull(start);
 		this.end=Objects.requireNonNull(end);
 	}
+	
+	public Fragment(final String location, final String startLine, final String endLine)
+			throws NullPointerException, NumberFormatException
+	{
+		this(location, new Position(Integer.parseInt(startLine)), new Position(Integer.parseInt(endLine)));
+	}
 
 	public Path getLocation()
 	{
