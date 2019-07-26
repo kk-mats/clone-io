@@ -55,8 +55,8 @@ public class DetectionResult
 	{
 		return this.addClonePair(new ClonePair(fragment1, fragment2, similarity));
 	}
-
-	public boolean addClonePair(final ClonePair clonePair) throws NullPointerException
+	
+	synchronized public boolean addClonePair(final ClonePair clonePair) throws NullPointerException
 	{
 		return this.clonePairs.add(clonePair);
 	}
